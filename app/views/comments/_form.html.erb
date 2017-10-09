@@ -12,8 +12,8 @@
 		</div>
 	<% end %>
 
-	<div class="form-group">
-		<%= form.text_field :author, class: "form-control", placeholder: "Your name here..." %>
+	<div class="form-group hidden">
+		<%= form.number_field :user_id, value: current_user.id %>
 	</div>
 
 	<div class="form-group">

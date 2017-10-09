@@ -1,20 +1,22 @@
-<h1>Current  Blog Posts</h1>
+<h1>Welcome <%= current_user.username %></h1>
 
 <div class="row">
 	<% @blog_posts.each do |blog_post| %>
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<%= link_to blog_post.title, blog_post %>
 			</div>
 			<div class="panel-body">
-				by <%= blog_post.author %><br>
+				by <%= link_to blog_post.user.username, user_posts_path(name: blog_post.user.username) %><br>
 				<p><i>Created: <%= blog_post.created_at.strftime('%m/%d/%Y at %I:%M%p') %></i></p>
-				<p><%= blog_post.blog_entry[0..150] %>...<%= link_to "Read More" , blog_post %></p>
+				<p><%= blog_post.blog_entry[0..150].html_safe %>...<%= link_to "Read More" , blog_post %></p>
 			</div>
 			<div class="panel-footer">
+				<% if blog_post.user_id == current_user.id %>
 				<%= link_to "Edit", edit_blog_post_path(blog_post), class: "btn btn-warning" %>
 				<%= link_to "Destroy", blog_post, method: :delete, data: { confirm: "Are you Sure?"}, class: "btn btn-danger" %>
+				<% end %>
 			</div>
 		</div>
 	</div>
@@ -23,4 +25,5 @@
 
 </div>
 
-<%= link_to "New Blog Post", new_blog_post_path, class: "btn btn-success" %>
+<%= paginate @blog_posts %>
+
